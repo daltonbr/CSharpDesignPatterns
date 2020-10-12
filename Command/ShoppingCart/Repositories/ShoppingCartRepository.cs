@@ -4,7 +4,7 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.Repositories
 {
-    class ShoppingCartRepository
+    class ShoppingCartRepository : IShoppingCartRepository
     {
         private Dictionary<string, (Product Product, int Quantity)> _products { get; }
 
@@ -12,7 +12,7 @@ namespace ShoppingCart.Repositories
         {
             _products = new Dictionary<string, (Product Product, int Quantity)>();    
         }
-
+ 
         public void Add(Product product)
         {
             if (_products.ContainsKey(product.ArticleId))
@@ -20,6 +20,22 @@ namespace ShoppingCart.Repositories
                 return;
             }
             _products.Add(product.ArticleId, (product, 1));
+        }
+
+        public void Remove(Product product)
+        {
+            if (_products.ContainsKey(product.ArticleId))
+            {
+                _products.Remove(product.ArticleId);
+            }
+        }
+
+        public void RemoveAll(string articleId)
+        {
+            if (_products.ContainsKey(articleId))
+            {
+                _products.Remove(articleId);
+            }
         }
 
         public void IncreaseQuantity(string articleId, int quantityToIncrease = 1)
@@ -48,6 +64,15 @@ namespace ShoppingCart.Repositories
             _products[articleId] = (_products[articleId].Product, _products[articleId].Quantity - quantityToDecrease);
         }
 
+        public (Product product, int Quantity) Get(string articleId)
+        {
+            if (_products.ContainsKey(articleId))
+            {
+                return (_products[articleId].Product, _products[articleId].Quantity);
+            }
+            return (null, 0);
+        }
+
         public void PrintCart()
         {
             // we want something like this
@@ -66,6 +91,7 @@ namespace ShoppingCart.Repositories
                 System.Console.WriteLine($"{p.ArticleId} \t\t ${p.Price} x {q} = \t${productTotal}");
             }
             System.Console.WriteLine($"Total price: \t\t\t${cartTotalPrice}");            
-        }            
+        }        
+
     }
 }

@@ -1,7 +1,7 @@
 using ShoppingCart.Models;
 using System.Collections.Generic;
 using System.Linq;
- 
+
 namespace ShoppingCart.Repositories
 {
     public class ProductsRepository : IProductRepository
@@ -59,14 +59,5 @@ namespace ShoppingCart.Repositories
             }
             return null;
         }        
-    }
-
-    public interface IProductRepository
-    {
-        Product FindBy(string articleId);
-        int GetStockFor(string articleId);
-        IEnumerable<Product> All();
-        void DecreaseStockBy(string articleId, int amount);
-        void IncreaseStockBy(string articleId, int amount);
     }
 }
