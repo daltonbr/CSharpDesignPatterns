@@ -24,6 +24,8 @@ AddToCartCommand
 
 The command pattern  can easily be leveraged to allow **undo or redo** functionality.
 
+![Redo](docs/Redo.png)
+
 **Repository pattern** (not covered here) let us work with storage without the consumer having to know about the specific data location (SQL, In-Memory, etc)
 
 ## Testing
@@ -33,3 +35,4 @@ In a **test** you might use a **Fake/Mock** of the repositories and use that whe
 The command pattern adds **complexity** which might **not** always be **desirable**.
 
 With command pattern we get rid of all direct interactions with the repositories allowing better separation of concerns.
+

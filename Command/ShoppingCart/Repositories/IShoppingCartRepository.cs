@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ShoppingCart.Models;
 
 namespace ShoppingCart.Repositories
@@ -9,7 +10,8 @@ namespace ShoppingCart.Repositories
         void RemoveAll(string articleId);
         void IncreaseQuantity(string articleId, int quantityToIncrease);        
         void DecreaseQuantity(string articleId, int quantityToDecrease);
-        (Product product, int Quantity) Get(string  articleId);
+        (Product product, int quantity) Get(string  articleId);
+        IEnumerable<(Product product, int quantity)> All();
         void PrintCart();
                    
     }

@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ShoppingCart.Models;
 
 namespace ShoppingCart.Repositories
 {
-    class ShoppingCartRepository : IShoppingCartRepository
+    public class ShoppingCartRepository : IShoppingCartRepository
     {
-        private Dictionary<string, (Product Product, int Quantity)> _products { get; }
+        private Dictionary<string, (Product product, int quantity)> _products { get; }
 
         public ShoppingCartRepository()
         {
-            _products = new Dictionary<string, (Product Product, int Quantity)>();    
+            _products = new Dictionary<string, (Product product, int quantity)>();    
         }
  
         public void Add(Product product)
@@ -48,7 +49,7 @@ namespace ShoppingCart.Repositories
             {
                 return;
             }
-            _products[articleId] = (_products[articleId].Product, _products[articleId].Quantity + quantityToIncrease);
+            _products[articleId] = (_products[articleId].product, _products[articleId].quantity + quantityToIncrease);
         }
 
         public void DecreaseQuantity(string articleId, int quantityToDecrease = 1)
@@ -61,16 +62,21 @@ namespace ShoppingCart.Repositories
             {
                 return;
             }
-            _products[articleId] = (_products[articleId].Product, _products[articleId].Quantity - quantityToDecrease);
+            _products[articleId] = (_products[articleId].product, _products[articleId].quantity - quantityToDecrease);
         }
 
-        public (Product product, int Quantity) Get(string articleId)
+        public (Product product, int quantity) Get(string articleId)
         {
             if (_products.ContainsKey(articleId))
             {
-                return (_products[articleId].Product, _products[articleId].Quantity);
+                return (_products[articleId].product, _products[articleId].quantity);
             }
             return (null, 0);
+        }
+
+        public IEnumerable<(Product product, int quantity)> All()
+        {
+            return _products.Values;
         }
 
         public void PrintCart()
@@ -83,8 +89,8 @@ namespace ShoppingCart.Repositories
             int cartTotalPrice = 0;
             foreach (var product in _products)
             {
-                var p = product.Value.Product;
-                var q = product.Value.Quantity;
+                var p = product.Value.product;
+                var q = product.Value.quantity;
                 var productTotal = p.Price * q;
                 cartTotalPrice += productTotal;
 
